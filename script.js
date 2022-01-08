@@ -51,3 +51,14 @@ function operate(a, b, operator){
     }
     return result
 }
+
+let buttons = document.querySelectorAll(".input");
+buttons.forEach(function(currentValue, index) {
+    currentValue.addEventListener('mousedown', e =>{
+        currentValue.classList.add('shrink');
+    });
+    currentValue.addEventListener('mouseup', e =>{
+        currentValue.classList.remove('shrink');
+    });
+    console.log(currentValue);
+})

@@ -61,7 +61,7 @@ body {
     font-family: 'Source Code Pro', monospace;
     font-size: 2rem;
     font-weight: bold;
-    margin:0;
+    margin:0px 16px;
     height: 40px;
     overflow: hidden;
     text-align: right;
@@ -75,26 +75,37 @@ body {
     justify-content: space-around;
 }
 
-.inputs-wrapper .row{
+.row{
     display:flex;
     flex-direction: row;
     justify-content: space-around;
     margin:16px;
 }
-.inputs-wrapper .row button{
+.inputs-wrapper .row *{
     border: none;
     border-radius: 4px;
-    font-size: 1.4rem;
+    font-size: 1.2rem;
     height:64px;
-    transition: all .2s ease-in-out;
+    transition: all .1s ease-in-out;
     width:64px;
 }
+.clear-row{
+	justify-content: flex-end;
+}
 
-.inputs-wrapper .row button:hover{
+#clear-button{
+	margin-right: 4px;
+	width: 144px;
+}
+
+.row button:hover{
     cursor: pointer;
     transform:scale(1.05) ;
 }
 
+.inputs-wrapper .row button:active{
+	transform: translateY(4px);
+}
 
 
 
@@ -126,7 +137,7 @@ html, body {
 	/* sets the body height of the browser, so that backgrounds and div heights work correctly. Color and background will almost certainly be altered; they are just placeholders */
 	
 body {
-	font-size: 1.4rem;
+	font-size: 1.2rem;
 	text-rendering: optimizeLegibility;
 }
 	/* sets the base font size for the document; turns on kerning pairs and ligatures */
