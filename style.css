@@ -1,13 +1,99 @@
 * {
     font-family: 'Be Vietnam Pro', sans-serif;
 }
-
-:root{
-    --calcText: font-family: 'Source Code Pro', monospace;
+body {
+	background: linear-gradient(-45deg, #fcfbee, #d1e9ce, #cceefc, #cbe9d4);
+	background-size: 400% 400%;
+	animation: gradient 15s ease infinite;
+	height: 100vh;
 }
 
+@keyframes gradient {
+	0% {
+		background-position: 0% 50%;
+	}
+	50% {
+		background-position: 100% 50%;
+	}
+	100% {
+		background-position: 0% 50%;
+	}
+}
 
+.left-section{
+    align-items: center;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding:128px;
+    width: 60%;
+}
 
+.right-section{
+    width:40%;
+}
+
+.content-wrapper{
+    padding: 32px;
+    display: flex;
+    flex-direction: row;
+}
+
+.calculator-wrapper{
+    background-color: lightslategrey;
+    padding:16px;
+    border-radius: 8px;
+    margin: auto;
+    width: fit-content;
+}
+
+.display-wrapper{
+    align-items: center;
+    background-color: #fcfbee;
+    border-radius: 8px;
+    display: flex;
+    padding: 4px;
+    margin:16px;
+    height:64px;
+    width:320px;
+}
+.display-wrapper  p{
+    font-family: 'Source Code Pro', monospace;
+    font-size: 2rem;
+    font-weight: bold;
+    margin:0;
+    height: 40px;
+    overflow: hidden;
+    text-align: right;
+    width: 100%;
+}
+
+.inputs-wrapper{
+    margin:16px;
+    display:flex;
+    flex-direction: column;
+    justify-content: space-around;
+}
+
+.inputs-wrapper .row{
+    display:flex;
+    flex-direction: row;
+    justify-content: space-around;
+    margin:16px;
+}
+.inputs-wrapper .row button{
+    border: none;
+    border-radius: 4px;
+    font-size: 1.4rem;
+    height:64px;
+    transition: all .2s ease-in-out;
+    width:64px;
+}
+
+.inputs-wrapper .row button:hover{
+    cursor: pointer;
+    transform:scale(1.05) ;
+}
 
 
 
@@ -35,7 +121,6 @@
 }
 html, body {
 	min-height: 100%;
-	background: #fff;
 	color: #000;
 }
 	/* sets the body height of the browser, so that backgrounds and div heights work correctly. Color and background will almost certainly be altered; they are just placeholders */
@@ -55,11 +140,6 @@ footer, header, nav, section, video {
 	}
 	
 	/* ensures that older browsers will display HTML5 elements correctly */
-	
-h1 {
-	font-size: 1.4rem;
-}
-	/* begins to set up font sizes relative to base rem – h1 has been used as an example */
 	
 p { 
 	-ms-word-break: break-all;
