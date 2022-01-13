@@ -54,7 +54,9 @@ body {
     display: flex;
     padding: 4px;
     margin:16px;
+	overflow: hidden;
     height:64px;
+	text-overflow: clip;
     width:320px;
 }
 .display-wrapper  p{
@@ -63,8 +65,9 @@ body {
     font-weight: bold;
     margin:0px 16px;
     height: 40px;
-    overflow: hidden;
     text-align: right;
+	text-overflow: clip;
+	white-space: nowrap;
     width: 100%;
 }
 
