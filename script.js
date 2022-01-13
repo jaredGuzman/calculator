@@ -6,25 +6,25 @@ function multiply(a, b){return a * b;}
 
 function divide(a, b){return a / b;}
 
-function operate(a, b, operator){
+function operate(a, operator, b){
     a = +a;
     b = +b;
     let result;
     switch(operator){
-        case 'add':
+        case '+':
             result = add(a, b);
             break;
-        case 'subtract':
+        case '-':
             result = subtract(a, b);
             break;
-        case 'multiply':
+        case 'X':
             result = multiply(a, b);
             break;
-        case 'divide':
+        case '/':
             result = divide(a, b);
             break;
         default:
-            return 'Oops! Please enter a proper operation!';
+            console.log('Oops! Please enter a proper operation!');
     }
     return result
 }
@@ -32,7 +32,7 @@ function operate(a, b, operator){
 let displayValueStorage = [''];
 const validOperators = /^[\.X\+\-\/]$/;
 const validNumbers = /^[0-9]$/;
-let previousInput;
+let currentlyEvaluating = false;
 
 
 function countArray(array){
@@ -53,6 +53,76 @@ function splitChars(array){
     return elementCharacters;
 }
 
+// currently only works with 3 values, needs to work with more
+
+function evaluate(){
+    // check length of array, only perform operations if it is 3 or longer
+    // get first array value  -- needs to be number
+    // get second array value -- needs to be operator
+    // get third array value -- needs to be number
+        let firstValue = displayValueStorage[0];
+        let secondValue = displayValueStorage[1];
+        let thirdValue = displayValueStorage[2];
+        currentlyEvaluating = true;
+    
+        let storageLength = displayValueStorage.length;
+        if(storageLength >= 3){
+            result = operate(firstValue, secondValue, thirdValue);
+            displayValueStorage = [`${result}`];
+            console.log(result);
+            updateDisplay(result);
+            currentlyEvaluating = false;
+            return;
+        }else if(storageLength == 2){
+            updateDisplay(firstValue);
+            currentlyEvaluating = false;
+            return;
+        }else{
+            updateDisplay(firstValue);
+            currentlyEvaluating = false;
+            return;
+        }
+    }
+
+
+function validateInput(input){
+    let validNumber = validNumbers.test(input);
+    let validOperator = validOperators.test(input);
+    if( (validNumber == true && input.length == 1) ||
+        (validOperator == true && input.length == 1) ||
+        input == '.' ||
+        input == '=' ||
+        input == 'Clear'){
+                return true;
+            }else{
+                return false;
+            }
+}
+
+// returns the proper string to display in the output using the displayvaluestorage and input 
+// by removing commas and adding spaces
+function parseOutput(displayValueStorage){
+    let parsedOutputStorage = splitChars(displayValueStorage),
+        parsedOutput = '';
+        parsedOutputStorage.forEach(element => {
+            let elementType = getType(element);
+            switch(elementType){
+                case 'operator':
+                    parsedOutput = parsedOutput + ` ${element} `;
+                    break;
+                case 'number':
+                        parsedOutput = parsedOutput + `${element}`;
+                    break;
+                case 'decimal':
+                    parsedOutput = parsedOutput + `${element}`;
+                    break;
+                default :
+                    parsedOutput = 'ERROR';
+            }
+        });
+        return parsedOutput
+}
+
 // returns can equal 'number' or 'operator' or 'invalid' or 'equal' or 'decimal'
 function getType(value){
     const inputTypes ={
@@ -62,15 +132,12 @@ function getType(value){
         decimal: false,
         clear: false
     }
+    value = String(value);
     let exists;
     let invalid =  false;
     switch(value){
         case '+': case '-': case 'X': case '/':
             inputTypes.operator = true;
-            break;
-        case '0' : case '1' : case '2' : case '3' : case '4' : 
-        case '5' : case '6' : case '7' : case '8' : case '9' :
-            inputTypes.number = true;
             break;
         case '=' :
             inputTypes.equals = true;
@@ -82,8 +149,13 @@ function getType(value){
             inputTypes.clear = true;
             break;
         default :
-            invalid = true;
+            if(isNaN(value) == false){
+                inputTypes.number = true;
+            }else{
+                invalid = true;
+            }
     }
+    
 
     for(key in inputTypes){
         key == true && exists == true ? invalid = true : invalid = false;
@@ -100,32 +172,6 @@ function getType(value){
 
     return 'invalid';
 }
-
-
-function resetDisplayStorage(){
-    displayValueStorage.length = 0;
-    displayValueStorage[0] = '';
-}
-
-function validateInput(input){
-    let validNumber = validNumbers.test(input);
-    let validOperator = validOperators.test(input);
-    if( (validNumber == true && input.length == 1) ||
-        (validOperator == true && input.length == 1) ||
-        input == '.' ||
-        input == '=' ||
-        input == 'Clear'){
-                return true;
-            }else{
-                return false;
-            }
-}
-
-/* 
-
-    UPDATE DISPLAY
-
-*/
 
 function getLastItemType(){
     let latestDisplayArrayItem = displayValueStorage[displayValueStorage.length - 1].split();
@@ -165,7 +211,6 @@ function addToStorage(value, lastItem, lastItemType, inputType){
                 }else{
                     displayValueStorage.push(value);
                 }
-                console.log(value);
             }else{
                 displayValueStorage[displayValueStorage.length - 1] += value;
             }
@@ -182,7 +227,6 @@ function addToStorage(value, lastItem, lastItemType, inputType){
             console.log('something went wrong');
     }
 }
-
 
 function updateDisplayValueStorage(value){
     let lastItem = displayValueStorage[displayValueStorage.length - 1];
@@ -229,29 +273,11 @@ function updateDisplayValueStorage(value){
 
 }
 
-// returns the proper string to display in the output using the displayvaluestorage and input 
-// by removing commas and adding spaces
-function parseOutput(displayValueStorage){
-    let parsedOutputStorage = splitChars(displayValueStorage),
-        parsedOutput = '';
-        parsedOutputStorage.forEach(element => {
-            let elementType = getType(element);
-            switch(elementType){
-                case 'operator':
-                    parsedOutput = parsedOutput + ` ${element} `;
-                    break;
-                case 'number':
-                    parsedOutput = parsedOutput + `${element}`;
-                    break;
-                case 'decimal':
-                    parsedOutput = parsedOutput + `${element}`;
-                    break;
-                default :
-                    parsedOutput = 'ERROR';
-            }
-        });
-        return parsedOutput
+function resetDisplayStorage(){
+    displayValueStorage.length = 0;
+    displayValueStorage[0] = '';
 }
+
 
 
 
@@ -264,52 +290,36 @@ function updateDisplay(input){
 
     let smallEnoughInput = countArray(displayValueStorage);
     if(smallEnoughInput > 13){return;}
-
     switch(currentInputType){
         case 'operator' :
             if(smallEnoughInput > 9){return;}
-            if(previousInput != 'operator'){
                 updateDisplayValueStorage(input);
                 parsedOutput = parseOutput(displayValueStorage);
                 document.querySelector('.display-output').textContent = parsedOutput;
-            }
             break; 
         case 'number' :
-            updateDisplayValueStorage(input);
-            parsedOutput = parseOutput(displayValueStorage, input);
-            document.querySelector('.display-output').textContent = parsedOutput;
+            if(currentlyEvaluating == true){
+                document.querySelector('.display-output').textContent = input;
+            }else{
+                updateDisplayValueStorage(input);
+                parsedOutput = parseOutput(displayValueStorage, input);
+                document.querySelector('.display-output').textContent = parsedOutput;
+            }
             break;
         case 'decimal' :
             // UPDATE THIS AT THE END
             break;
         case 'equals':
             // UPDATE THIS AFTER DONE WITH WORKING ON VALIDATION
-            evaluate(displayValueStorage);
+            evaluate();
+            break;
         case 'clear':
-            console.log('here');
             resetDisplayStorage();
             document.querySelector('.display-output').textContent = 'Try something!';
         break;
     }    
     
 }
-
-/*
-
-    EVALUATE
-
-*/
-
-// should only happen when the user clicks '='
-
-function evaluate(){
-
-
-
-
-}
-
-
 
 let buttons = document.querySelectorAll(".input");
 
