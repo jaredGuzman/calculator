@@ -17,19 +17,26 @@
 <body>
     <div class="content-wrapper">
         <section class="left-section">
-            <h1>Calculate Something!</h1>
-            <p>Caluculate sum stuff, matey. Put a number, do a thing, then put another number then press equals. Bada-bing, Bada-boom, waddayaknow?</p><br />
-            <p>*Can only take inputs up to 13 characters long (for styling reasons)</p>
+            <div class="three-dee"></div>
+            <div class="info-wrapper">
+                <h1>Calculate Something!</h1>
+                <p>An exercise in utlizing html, css and javascript. This project was completed in tandem with <a href="https://www.theodinproject.com/" target="_blank">The Odin Project</a>, an open source project based bootcamp.</p><br />
+                <ul>
+                    <li>Can only take inputs up to 13 characters long!</li>
+                    <li>Rounds numbers to the nearest thousandth (eg: 1.125)</li>
+                </ul>
+            </div>
         </section>
 
         <section class="right-section">
+            <div class="three-dee"></div>
             <div class="calculator-wrapper">
                 <div class="display-wrapper">
-                    <p class="display-output">Try something!</p>
+                    <p class="display-output">0</p>
                 </div>
                 <div class="inputs-wrapper">
                     <div class="row clear-row">
-                        <button class="input" id="clear-button">Clear</button>
+                        <button class="input" id="clear-button">C</button>
                     </div>
                     <div class="row">
                         <button class="input number">7</button>
@@ -59,6 +66,20 @@
 
             </div>
         </section>
+    </div>
+    <div class="bottom-area">
+        <svg width="100%" height="100%" viewBox="0 0 100 26" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+            <style>
+                path {
+                    box-shadow: rgba(50, 50, 93, 0.25) 0px 20px 20px -12px inset, rgba(0, 0, 0, 0.3) 0px 8px 36px -18px inset;
+                    fill:#DBE4EE;
+                    height:100%;
+                    width:100%;
+                }
+              </style>
+            <path d="M -4 19 C -4 11 3 2 18 2 C 35 2 36 10 55 10 C 70 10 86 2 100 9 L 100 27 L -4 27 Z" />
+        </svg>
+
     </div>
     
 </body>

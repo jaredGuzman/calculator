@@ -2,8 +2,8 @@
     font-family: 'Be Vietnam Pro', sans-serif;
 }
 body {
-	background: linear-gradient(-45deg, #fcfbee, #d1e9ce, #cceefc, #cbe9d4);
-	background-size: 400% 400%;
+	background: linear-gradient(-45deg, #054A91, #3D86D9, #2F619C, #A5BDD9);
+	background-size: 1000% 1000%;
 	animation: gradient 15s ease infinite;
 	height: 100vh;
 }
@@ -20,44 +20,104 @@ body {
 	}
 }
 
-.left-section{
-    align-items: center;
+.content-wrapper{
+    display: flex;
+	height: 100%;
+    flex-direction: row;
+	overflow: hidden;
+	padding: 128px 5%;
+}
+.content-wrapper section{
+	align-items:baseline;
+	display:flex;
+	height:100%;
+	justify-content: center;
+	padding: 5% 24px;
+    width: 50%;
+}
+
+
+.left-section div{
+	transition-duration: 1s;
+}
+
+.left-section div.info-wrapper:hover{
+	transform: perspective(1500px) rotateY(0deg) !important;
+	transition-duration: 1s;
+}
+
+.left-section .info-wrapper{
+	align-items: center;
+	background-color: #DBE4EE;
+	border-radius: 8px;
     display: flex;
     flex-direction: column;
+	height: 394px;
     justify-content: center;
-    padding:128px;
-    width: 60%;
+	padding: 32px;
+	position: absolute;
+	width: 475px;
+	z-index: 2;
+
+	transform: perspective(1500px) rotateY(15deg);
+	box-shadow: rgba(0, 0, 0, 0.25) 0px 25px 50px -12px;
 }
 
-.right-section{
-    width:40%;
+
+.right-section div{
+	transition-duration: 1s;
 }
 
-.content-wrapper{
-    padding: 32px;
-    display: flex;
-    flex-direction: row;
+.right-section div.calculator-wrapper:hover{
+	transform: perspective(1500px) rotateY(0deg) !important;
+	transition-duration: 1s;
+}
+
+.three-dee{
+	background-color: #c8d6e6;
+	border-radius: 8px;
+	position:absolute;
+	z-index: 0;
+}
+
+.left-section .three-dee{
+	height: 394px;
+	width: 475px;
+	transform: perspective(1500px) rotateY(15deg) translate(-45px, -45px);
+  	box-shadow: rgba(0, 0, 0, 0.25) 0px 25px 50px -12px;
+}
+.right-section .three-dee{
+	height: 624px;
+	width: 464px;
+	transform: perspective(1500px) rotateY(-15deg) translate(45px, -45px);
+  	box-shadow: rgba(0, 0, 0, 0.25) 0px 25px 50px -12px;
 }
 
 .calculator-wrapper{
-    background-color: lightslategrey;
+    background-color: #DBE4EE;
     padding:16px;
     border-radius: 8px;
+	position: absolute;
     margin: auto;
     width: fit-content;
+	z-index: 2;
+
+	transform: perspective(1500px) rotateY(-15deg);
+  	box-shadow: rgba(0, 0, 0, 0.25) 0px 25px 50px -12px;
 }
 
 .display-wrapper{
     align-items: center;
-    background-color: #fcfbee;
+    background-color: #DBE4EE;
     border-radius: 8px;
+	box-shadow: rgba(50, 50, 93, 0.25) 0px 20px 20px -12px inset, rgba(0, 0, 0, 0.3) 0px 8px 36px -18px inset;
     display: flex;
     padding: 4px;
     margin:16px;
 	overflow: hidden;
     height:64px;
 	text-overflow: clip;
-    width:320px;
+    width:400px;
 }
 .display-wrapper  p{
     font-family: 'Source Code Pro', monospace;
@@ -100,14 +160,40 @@ body {
 	margin-right: 4px;
 	width: 144px;
 }
+.row button{
+	background-color: #DBE4EE;
+	box-shadow: rgba(100, 100, 111, 0.4) 0px 7px 29px 0px;
+}
+
+.row button.operator, .row button#submit, .row button#decimal{
+	background-color: #D64045;
+	color: #FFF;
+	font-weight: bold;
+}
 
 .row button:hover{
     cursor: pointer;
-    transform:scale(1.05) ;
+    transform:scale(1.05);
+}
+
+.row button:not(.operator, #submit, #decimal):hover{
+	background-color: rgba(129, 164, 205, 0.1);
 }
 
 .inputs-wrapper .row button:active{
 	transform: translateY(4px);
+}
+
+
+
+.bottom-area{
+	bottom:calc(10vh - 5vw);
+	display: flex;
+	position: absolute;
+	transform: translateY(100px);
+	padding:0px;
+	width:100%;
+	z-index: -1;
 }
 
 
@@ -134,8 +220,18 @@ body {
 	box-sizing: border-box;
 }
 html, body {
+	max-height: 100%;
 	min-height: 100%;
+	overflow: hidden;
 	color: #000;
+}
+* a{
+	color: #3D86D9;
+	transition-duration: .3s;
+}
+* a:hover{
+	color: #054A91;
+	transition-duration: .3s;
 }
 	/* sets the body height of the browser, so that backgrounds and div heights work correctly. Color and background will almost certainly be altered; they are just placeholders */
 	
@@ -159,10 +255,10 @@ p {
 	-ms-word-break: break-all;
 	word-break: break-all;
 	word-break: break-word;
-	-moz-hyphens: auto;
-	-webkit-hyphens: auto;
-	-ms-hyphens: auto;
-	hyphens: auto;
+	-moz-hyphens: none;
+	-webkit-hyphens: none;
+	-ms-hyphens: none;
+	hyphens: none;
 } 
 	/* sets hyphenation by default on paragraphs */
 	
@@ -188,25 +284,7 @@ input[type="submit"]::-moz-focus-inner,
 		border : 0px;
 	}
 	/* removes the inner border effect from focused buttons for form elements in Firefox */
-	
-input[type="search"] { 
-	-webkit-appearance: textfield;
-} 
-input[type="submit"] { 
-	-webkit-appearance:none;
-}
-	/* removes the OS X appearance from HTML5 search inputs and submit buttons when viewed in Safari */
-	
-input:required:after {
-	color: #f00;
-	content: " *";
-}
-	/* sets up required form fields with the conventional following red asterix */
-input[type="email"]:invalid { 
-	background: #f00;
-}
-	/* causes a visual alert in browsers that do client-side checking of HTML5 email field – this may already be the default in some browsers. */
-	
+
 .right { 
 	float: right;
 	margin-left: 2rem;

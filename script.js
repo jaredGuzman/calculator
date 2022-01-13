@@ -26,6 +26,7 @@ function operate(a, operator, b){
         default:
             console.log('Oops! Please enter a proper operation!');
     }
+    result = Math.round(result*1000)/1000
     return result
 }
 
@@ -63,14 +64,15 @@ function evaluate(){
         let firstValue = displayValueStorage[0];
         let secondValue = displayValueStorage[1];
         let thirdValue = displayValueStorage[2];
+        let restofStorage = displayValueStorage.slice(3, displayValueStorage.length);
         currentlyEvaluating = true;
     
         let storageLength = displayValueStorage.length;
         if(storageLength >= 3){
             result = operate(firstValue, secondValue, thirdValue);
-            displayValueStorage = [`${result}`];
-            console.log(result);
-            updateDisplay(result);
+            displayValueStorage = [`${result}`].concat(restofStorage);
+            output = parseOutput(displayValueStorage, '');
+            document.querySelector('.display-output').textContent = output;
             currentlyEvaluating = false;
             return;
         }else if(storageLength == 2){
@@ -92,7 +94,7 @@ function validateInput(input){
         (validOperator == true && input.length == 1) ||
         input == '.' ||
         input == '=' ||
-        input == 'Clear'){
+        input == 'C'){
                 return true;
             }else{
                 return false;
@@ -145,7 +147,7 @@ function getType(value){
         case '.' :
             inputTypes.decimal = true;
             break;
-        case 'Clear':
+        case 'C':
             inputTypes.clear = true;
             break;
         default :
@@ -315,7 +317,7 @@ function updateDisplay(input){
             break;
         case 'clear':
             resetDisplayStorage();
-            document.querySelector('.display-output').textContent = 'Try something!';
+            document.querySelector('.display-output').textContent = '0';
         break;
     }    
     
