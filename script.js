@@ -1,16 +1,24 @@
-function add(a, b){return a + b;}
+function add(a, b) {
+    return a + b;
+}
 
-function subtract(a, b){return a - b;}
+function subtract(a, b) {
+    return a - b;
+}
 
-function multiply(a, b){return a * b;}
+function multiply(a, b) {
+    return a * b;
+}
 
-function divide(a, b){return a / b;}
+function divide(a, b) {
+    return a / b;
+}
 
-function operate(a, operator, b){
+function operate(a, operator, b) {
     a = +a;
     b = +b;
     let result;
-    switch(operator){
+    switch (operator) {
         case '+':
             result = add(a, b);
             break;
@@ -26,7 +34,7 @@ function operate(a, operator, b){
         default:
             console.log('Oops! Please enter a proper operation!');
     }
-    result = Math.round(result*1000)/1000
+    result = Math.round(result * 1000) / 1000
     return result
 }
 
@@ -36,16 +44,16 @@ const validNumbers = /^[0-9]$/;
 let currentlyEvaluating = false;
 
 
-function countArray(array){
+function countArray(array) {
     let count = 0;
-    array.forEach(element =>{
+    array.forEach(element => {
         let currentItemCount = element.split('').length;
-            count += currentItemCount;
+        count += currentItemCount;
     })
     return count;
 }
 
-function splitChars(array){
+function splitChars(array) {
     let elementCharacters = [];
     array.forEach((element) => {
         let currentItemCharacters = element.split('');
@@ -54,80 +62,74 @@ function splitChars(array){
     return elementCharacters;
 }
 
-// currently only works with 3 values, needs to work with more
+function evaluate() {
+    let firstValue = displayValueStorage[0];
+    let secondValue = displayValueStorage[1];
+    let thirdValue = displayValueStorage[2];
+    let restofStorage = displayValueStorage.slice(3, displayValueStorage.length);
+    currentlyEvaluating = true;
 
-function evaluate(){
-    // check length of array, only perform operations if it is 3 or longer
-    // get first array value  -- needs to be number
-    // get second array value -- needs to be operator
-    // get third array value -- needs to be number
-        let firstValue = displayValueStorage[0];
-        let secondValue = displayValueStorage[1];
-        let thirdValue = displayValueStorage[2];
-        let restofStorage = displayValueStorage.slice(3, displayValueStorage.length);
-        currentlyEvaluating = true;
-    
-        let storageLength = displayValueStorage.length;
-        if(storageLength >= 3){
-            result = operate(firstValue, secondValue, thirdValue);
-            displayValueStorage = [`${result}`].concat(restofStorage);
-            output = parseOutput(displayValueStorage, '');
-            document.querySelector('.display-output').textContent = output;
-            currentlyEvaluating = false;
-            return;
-        }else if(storageLength == 2){
-            updateDisplay(firstValue);
-            currentlyEvaluating = false;
-            return;
-        }else{
-            updateDisplay(firstValue);
-            currentlyEvaluating = false;
-            return;
-        }
+    let storageLength = displayValueStorage.length;
+    if (storageLength >= 3) {
+        result = operate(firstValue, secondValue, thirdValue);
+        displayValueStorage = [`${result}`].concat(restofStorage);
+        output = parseOutput(displayValueStorage, '');
+        document.querySelector('.display-output').textContent = output;
+        currentlyEvaluating = false;
+        return;
+    } else if (storageLength == 2) {
+        updateDisplay(firstValue);
+        currentlyEvaluating = false;
+        return;
+    } else {
+        updateDisplay(firstValue);
+        currentlyEvaluating = false;
+        return;
     }
+}
 
 
-function validateInput(input){
+function validateInput(input) {
     let validNumber = validNumbers.test(input);
     let validOperator = validOperators.test(input);
-    if( (validNumber == true && input.length == 1) ||
+    if ((validNumber == true && input.length == 1) ||
         (validOperator == true && input.length == 1) ||
         input == '.' ||
         input == '=' ||
-        input == 'C'){
-                return true;
-            }else{
-                return false;
-            }
+        input == 'C') {
+        return true;
+    } else {
+        return false;
+    }
 }
 
 // returns the proper string to display in the output using the displayvaluestorage and input 
 // by removing commas and adding spaces
-function parseOutput(displayValueStorage){
+function parseOutput(displayValueStorage) {
     let parsedOutputStorage = splitChars(displayValueStorage),
         parsedOutput = '';
-        parsedOutputStorage.forEach(element => {
-            let elementType = getType(element);
-            switch(elementType){
-                case 'operator':
-                    parsedOutput = parsedOutput + ` ${element} `;
-                    break;
-                case 'number':
-                        parsedOutput = parsedOutput + `${element}`;
-                    break;
-                case 'decimal':
-                    parsedOutput = parsedOutput + `${element}`;
-                    break;
-                default :
-                    parsedOutput = 'ERROR';
-            }
-        });
-        return parsedOutput
+    parsedOutputStorage.forEach(element => {
+        let elementType = getType(element);
+        switch (elementType) {
+            case 'operator':
+                parsedOutput = parsedOutput + ` ${element} `;
+                break;
+            case 'number':
+                parsedOutput = parsedOutput + `${element}`;
+                break;
+            case 'decimal':
+                parsedOutput = parsedOutput + `${element}`;
+                break;
+            default:
+                parsedOutput = 'ERROR';
+        }
+    });
+    return parsedOutput
 }
 
 // returns can equal 'number' or 'operator' or 'invalid' or 'equal' or 'decimal'
-function getType(value){
-    const inputTypes ={
+function getType(value) {
+    const inputTypes = {
         operator: false,
         number: false,
         equals: false,
@@ -136,52 +138,67 @@ function getType(value){
     }
     value = String(value);
     let exists;
-    let invalid =  false;
-    switch(value){
-        case '+': case '-': case 'X': case '/':
+    let invalid = false;
+    switch (value) {
+        case '+':
+        case '-':
+        case 'X':
+        case '/':
             inputTypes.operator = true;
             break;
-        case '=' :
+        case '=':
             inputTypes.equals = true;
             break;
-        case '.' :
+        case '.':
             inputTypes.decimal = true;
             break;
         case 'C':
             inputTypes.clear = true;
             break;
-        default :
-            if(isNaN(value) == false){
+        default:
+            if (isNaN(value) == false) {
                 inputTypes.number = true;
-            }else{
+            } else {
                 invalid = true;
             }
     }
-    
 
-    for(key in inputTypes){
+
+    for (key in inputTypes) {
         key == true && exists == true ? invalid = true : invalid = false;
         key == true ? exists = true : exists = false;
     }
 
-    if(invalid == true){return 'invalid'};
+    if (invalid == true) {
+        return 'invalid'
+    };
 
-    if(inputTypes.number == true){return 'number';}
-    if(inputTypes.operator == true){return 'operator';}
-    if(inputTypes.equals == true){return 'equals';}
-    if(inputTypes.decimal == true){return 'decimal';}
-    if(inputTypes.clear == true){return 'clear';}
+    if (inputTypes.number == true) {
+        return 'number';
+    }
+    if (inputTypes.operator == true) {
+        return 'operator';
+    }
+    if (inputTypes.equals == true) {
+        return 'equals';
+    }
+    if (inputTypes.decimal == true) {
+        return 'decimal';
+    }
+    if (inputTypes.clear == true) {
+        return 'clear';
+    }
 
     return 'invalid';
 }
 
-function getLastItemType(){
+function getLastItemType() {
     let latestDisplayArrayItem = displayValueStorage[displayValueStorage.length - 1].split();
-    let operator = false, 
+    let operator = false,
         number = false,
         invalid = false;
     latestDisplayArrayItem.forEach(element => {
-        switch(element){
+        switch (element) {
             case '+':
             case '-':
             case 'X':
@@ -191,34 +208,44 @@ function getLastItemType(){
             default:
                 number = true;
         }
-        (number == true) && (operator == true) ? invalid = true : invalid = false;
+        (number == true) && (operator == true) ? invalid = true: invalid = false;
     })
-    if(latestDisplayArrayItem <= 0){return 'invalid';}
-    if(invalid == true){return 'invalid';}
-    if(number == true){return 'number';}
-    if(operator == true){return 'operator';}
+    if (latestDisplayArrayItem <= 0) {
+        return 'invalid';
+    }
+    if (invalid == true) {
+        return 'invalid';
+    }
+    if (number == true) {
+        return 'number';
+    }
+    if (operator == true) {
+        return 'operator';
+    }
     return 'invalid';
 }
 
-function addToStorage(value, lastItem, lastItemType, inputType){
-    switch(inputType){
+function addToStorage(value, lastItem, lastItemType, inputType) {
+    switch (inputType) {
         case 'operator':
-            if(lastItemType == 'number'){displayValueStorage.push(value)};
+            if (lastItemType == 'number') {
+                displayValueStorage.push(value)
+            };
             break;
         case 'number':
-            if(lastItemType == 'operator' || displayValueStorage.length <= 0){
-                if(lastItem == '/' && value == '0'){
+            if (lastItemType == 'operator' || displayValueStorage.length <= 0) {
+                if (lastItem == '/' && value == '0') {
                     console.log('Throw a fancy error here!');
                     return;
-                }else{
+                } else {
                     displayValueStorage.push(value);
                 }
-            }else{
+            } else {
                 displayValueStorage[displayValueStorage.length - 1] += value;
             }
             break;
         case 'decimal':
-            if(lastItemType == 'number'){
+            if (lastItemType == 'number') {
                 displayValueStorage[displayValueStorage.length - 1] += value;
             };
             break;
@@ -230,13 +257,13 @@ function addToStorage(value, lastItem, lastItemType, inputType){
     }
 }
 
-function updateDisplayValueStorage(value){
+function updateDisplayValueStorage(value) {
     let lastItem = displayValueStorage[displayValueStorage.length - 1];
     let lastItemType = getLastItemType();
     let inputType = getType(value);
 
-    if(lastItemType == 'operator'){
-        switch(inputType){
+    if (lastItemType == 'operator') {
+        switch (inputType) {
             case 'invalid':
                 console.log(`${value} - invalid input`);
                 break;
@@ -254,8 +281,8 @@ function updateDisplayValueStorage(value){
                 console.log(`${value} - number added after operator`);
                 break;
         }
-    }else if(lastItemType == 'number' || displayValueStorage <= 0){
-        switch(inputType){
+    } else if (lastItemType == 'number' || displayValueStorage <= 0) {
+        switch (inputType) {
             case 'operator':
                 addToStorage(value, lastItem, lastItemType, inputType);
                 console.log(`${value} - operator added after number`);
@@ -268,22 +295,19 @@ function updateDisplayValueStorage(value){
                 addToStorage(value, lastItem, lastItemType, inputType);
                 console.log(`${value} - decimal added after number`);
                 break;
-            default : 
+            default:
                 console.log(`Something went wrong in updateDisplayValueStorage value = ${value}`);
         }
     };
 
 }
 
-function resetDisplayStorage(){
+function resetDisplayStorage() {
     displayValueStorage.length = 0;
     displayValueStorage[0] = '';
 }
 
-
-
-
-function updateDisplay(input){
+function updateDisplay(input) {
     // let validStorage = validateDisplayValueStorage(displayValueStorage);
     // if(validStorage === false ){return;}
 
@@ -291,24 +315,28 @@ function updateDisplay(input){
     let parsedOutput;
 
     let smallEnoughInput = countArray(displayValueStorage);
-    if(smallEnoughInput > 13){return;}
-    switch(currentInputType){
-        case 'operator' :
-            if(smallEnoughInput > 9){return;}
-                updateDisplayValueStorage(input);
-                parsedOutput = parseOutput(displayValueStorage);
-                document.querySelector('.display-output').textContent = parsedOutput;
-            break; 
-        case 'number' :
-            if(currentlyEvaluating == true){
+    if (smallEnoughInput > 13) {
+        return;
+    }
+    switch (currentInputType) {
+        case 'operator':
+            if (smallEnoughInput > 9) {
+                return;
+            }
+            updateDisplayValueStorage(input);
+            parsedOutput = parseOutput(displayValueStorage);
+            document.querySelector('.display-output').textContent = parsedOutput;
+            break;
+        case 'number':
+            if (currentlyEvaluating == true) {
                 document.querySelector('.display-output').textContent = input;
-            }else{
+            } else {
                 updateDisplayValueStorage(input);
                 parsedOutput = parseOutput(displayValueStorage, input);
                 document.querySelector('.display-output').textContent = parsedOutput;
             }
             break;
-        case 'decimal' :
+        case 'decimal':
             // UPDATE THIS AT THE END
             break;
         case 'equals':
@@ -318,22 +346,22 @@ function updateDisplay(input){
         case 'clear':
             resetDisplayStorage();
             document.querySelector('.display-output').textContent = '0';
-        break;
-    }    
-    
+            break;
+    }
+
 }
 
 let buttons = document.querySelectorAll(".input");
 
 buttons.forEach(currentValue => {
     currentValue.addEventListener('click', e => {
-        if(currentValue.classList.contains('input') == true){
+        if (currentValue.classList.contains('input') == true) {
             let inputValue = currentValue.textContent;
             let validInput = validateInput(inputValue);
-            if(validInput == true){
+            if (validInput == true) {
                 updateDisplay(inputValue);
                 console.log(displayValueStorage);
-            }else{
+            } else {
                 console.log('Hey! >:( you ain\'t supposed to be doin\' that!');
             }
         }
