@@ -187,13 +187,25 @@ body {
 
 
 .bottom-area{
-	bottom:calc(10vh - 5vw);
+	bottom: calc(10vh - 5vw);
 	display: flex;
 	position: absolute;
 	transform: translateY(100px);
 	padding:0px;
 	width:100%;
 	z-index: -1;
+}
+
+.description{
+	bottom: calc(5vh + 5vw);
+	padding: 2vh 5vw;
+	pointer-events: all !important;
+	position: absolute;
+	width: 100%;
+	z-index:10;
+}
+.description:hover{
+	cursor: pointer;
 }
 
 
