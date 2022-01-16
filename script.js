@@ -39,6 +39,8 @@ function operate(a, operator, b) {
 }
 
 let displayValueStorage = [''];
+let calculationDisplayValueStorage = [''];
+let previouslyEvaluated = false;
 const validOperators = /^[\.X\+\-\/]$/;
 const validNumbers = /^[0-9]$/;
 let currentlyEvaluating = false;
@@ -66,24 +68,29 @@ function evaluate() {
     let firstValue = displayValueStorage[0];
     let secondValue = displayValueStorage[1];
     let thirdValue = displayValueStorage[2];
-    let restofStorage = displayValueStorage.slice(3, displayValueStorage.length);
     currentlyEvaluating = true;
-
     let storageLength = displayValueStorage.length;
+    let numberOfOperations = (storageLength - 1) / 2;
+
     if (storageLength >= 3) {
-        result = operate(firstValue, secondValue, thirdValue);
-        displayValueStorage = [`${result}`].concat(restofStorage);
+        for(let i = 0; i < numberOfOperations; i++){
+            result = operate(firstValue, secondValue, thirdValue);
+            let valueStorageTemp = displayValueStorage.slice(3);
+            displayValueStorage = [`${result}`];
+            displayValueStorage = displayValueStorage.concat(valueStorageTemp);
+            firstValue = displayValueStorage[0];
+            secondValue = displayValueStorage[1];
+            thirdValue = displayValueStorage[2];
+        }
         output = parseOutput(displayValueStorage, '');
         document.querySelector('.display-output').textContent = output;
         currentlyEvaluating = false;
+        previouslyEvaluated = true;
         return;
-    } else if (storageLength == 2) {
+    } else if (storageLength <= 2) {
         updateDisplay(firstValue);
         currentlyEvaluating = false;
-        return;
-    } else {
-        updateDisplay(firstValue);
-        currentlyEvaluating = false;
+        previouslyEvaluated = true;
         return;
     }
 }
@@ -108,6 +115,7 @@ function validateInput(input) {
 function parseOutput(displayValueStorage) {
     let parsedOutputStorage = splitChars(displayValueStorage),
         parsedOutput = '';
+
     parsedOutputStorage.forEach(element => {
         let elementType = getType(element);
         switch (elementType) {
@@ -326,6 +334,7 @@ function updateDisplay(input) {
             updateDisplayValueStorage(input);
             parsedOutput = parseOutput(displayValueStorage);
             document.querySelector('.display-output').textContent = parsedOutput;
+            document.querySelector('.calculation-display-output').textContent = parsedOutput;
             break;
         case 'number':
             if (currentlyEvaluating == true) {
@@ -334,6 +343,7 @@ function updateDisplay(input) {
                 updateDisplayValueStorage(input);
                 parsedOutput = parseOutput(displayValueStorage, input);
                 document.querySelector('.display-output').textContent = parsedOutput;
+                document.querySelector('.calculation-display-output').textContent = parsedOutput;
             }
             break;
         case 'decimal':
@@ -346,6 +356,7 @@ function updateDisplay(input) {
         case 'clear':
             resetDisplayStorage();
             document.querySelector('.display-output').textContent = '0';
+            document.querySelector('.calculation-display-output').textContent = ' ';
             break;
     }
 
