@@ -339,7 +339,7 @@ sub, sup {
 		padding: 32px;
 		z-index: 3;
 	
-		/* transform: perspective(1500px) rotateY(15deg); */
+		transform: perspective(1500px) rotateY(15deg);
 		box-shadow: rgba(0, 0, 0, 0.25) 0px 25px 50px -12px;
 	}
 
@@ -348,7 +348,7 @@ sub, sup {
 	}
 	
 	.left-section div.info-wrapper:hover{
-		/* transform: perspective(1500px) rotateY(0deg); */
+		transform: perspective(1500px) rotateY(0deg);
 		transition-duration: 1s;
 	}
 
@@ -361,7 +361,7 @@ sub, sup {
 	}
 	
 	.right-section div.calculator-wrapper:hover{
-		/* transform: perspective(1500px) rotateY(0deg); */
+		transform: perspective(1500px) rotateY(0deg);
 		transition-duration: 1s;
 	}
 
@@ -377,16 +377,16 @@ sub, sup {
 	}
 	
 	.left-section .three-dee{
-		height: 394px;
+		height: 515px;
 		position: absolute;
-		/* transform: perspective(1500px) rotateY(15deg) translate(-45px, -45px); */
+		transform: perspective(1500px) rotateY(15deg) translate(-45px, -45px);
 		  box-shadow: rgba(0, 0, 0, 0.25) 0px 25px 50px -12px;
 	}
 
 	.right-section .three-dee{
-		height: 624px;
+		height: 600px;
 		position: absolute;
-		/* transform: perspective(1500px) rotateY(-15deg) translate(45px, -45px); */
+		transform: perspective(1500px) rotateY(-15deg) translate(45px, -45px);
 		  box-shadow: rgba(0, 0, 0, 0.25) 0px 25px 50px -12px;
 	}
 	
@@ -396,7 +396,7 @@ sub, sup {
 		height: 624px;
 		z-index: 3;
 	
-		/* transform: perspective(1500px) rotateY(-15deg); */
+		transform: perspective(1500px) rotateY(-15deg);
 		  box-shadow: rgba(0, 0, 0, 0.25) 0px 25px 50px -12px;
 	}
 	

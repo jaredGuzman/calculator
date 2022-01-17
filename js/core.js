@@ -1,3 +1,11 @@
+// TODO
+
+// ADD BACKSPACE BUTTON
+// ADD KEYBOARD SUPPORT
+
+
+
+
 let displayValueStorage = [''];
 let calculationDisplayValueStorage = [''];
 let previouslyEvaluated = false;
