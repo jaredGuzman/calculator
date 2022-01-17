@@ -32,11 +32,19 @@ function operate(a, operator, b) {
             result = divide(a, b);
             break;
         default:
-            console.log('Oops! Please enter a proper operation!');
+            console.log(`Oops! Please enter a proper operation! submitted values : ${a}, ${operator}, ${b}`);
     }
     result = Math.round(result * 1000) / 1000
     return result
 }
+
+/** Takes the first three items in the displayValustorage array, 
+ *  and evaluates them using the array items as inputs for the operate function.
+ * 
+ * NOTE: If I want to include PEMDAS logic, this is where I would be doing it
+ * 
+ * @returns evaluated expressions.
+ */
 
 function evaluate() {
     // firstValue = number, secondValue = operation, thirdValue = number

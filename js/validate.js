@@ -1,5 +1,6 @@
 const validOperators = /^[\.X\+\-\/]$/;
 const validNumbers = /^[0-9]$/;
+const decimal = '.';
 
 
 function validateInput(input) {
@@ -17,21 +18,23 @@ function validateInput(input) {
 }
 
 
-// validates all chars in the current array
+// Validates array before going out, takes an array and check each item
+/**
+ * 
+ * @param {*} input 
+ * @returns true or false depending on whether or not all items in an array
+ *          the given valid inputs.
+ */
 
 function validateArray(input){
-
     input.forEach(element => {
         let validNumber = validNumbers.test(element);
         let validOperator = validOperators.test(element);
-
         if(validNumber == false || validOperator == false){
             return false;
         }
     });
-
     return true;
-
 }
 
 function checkforDecimal(){
