@@ -87,6 +87,11 @@ function getLastItemType() {
     let operator = false,
         number = false,
         invalid = false;
+    if(latestDisplayArrayItem[0] == ''){
+        return 'empty';
+    }else if(latestDisplayArrayItem[0] == '0'){
+        return 'number';
+    }
     latestDisplayArrayItem.forEach(element => {
         switch (element) {
             case '+':
@@ -130,14 +135,13 @@ function updateDisplay(input) {
 
     let parsedOutput;
 
-    let lastItem = getLastItemType();
+    let lastItemType = getLastItemType();
 
     let smallEnoughInput = countArray(displayValueStorage);
     if (smallEnoughInput > 13) {
         return;
     }
 
-    console.log()
     switch (currentInputType) {
         // make sure there is enough space and only add if the last item is not
         // also an operator
@@ -149,7 +153,7 @@ function updateDisplay(input) {
             parsedOutput = parseOutput(displayValueStorage);
             document.querySelector('.display-output').textContent = parsedOutput;
             document.querySelector('.calculation-display-output').textContent = parsedOutput;
-            console.log(lastItem);
+            console.log(lastItemType);
             break;
         case 'number':
             if (currentlyEvaluating == true) {
@@ -162,16 +166,26 @@ function updateDisplay(input) {
             }
             break;
         case 'decimal':
-            if(lastItem = 'number'){
-                updateDisplayValueStorage(input);
-                parsedOutput = parseOutput(displayValueStorage, input);
-                document.querySelector('.display-output').textContent = parsedOutput;
-                document.querySelector('.calculation-display-output').textContent = parsedOutput;
-            }else if(lastItem = 'operator'){
-                updateDisplayValueStorage(input);
-                parsedOutput = parseOutput(displayValueStorage, input);
-                document.querySelector('.display-output').textContent = `${parsedOutput}`;
-                document.querySelector('.calculation-display-output').textContent = `0${parsedOutput}`;
+            switch(lastItemType){
+                case 'number' :
+                    updateDisplayValueStorage(input);
+                    parsedOutput = parseOutput(displayValueStorage, input);
+                    document.querySelector('.display-output').textContent = parsedOutput;
+                    document.querySelector('.calculation-display-output').textContent = parsedOutput;
+                    break;
+                case 'operator' :
+                    updateDisplayValueStorage(input);
+                    parsedOutput = parseOutput(displayValueStorage, input);
+                    console.log(parsedOutput);
+                    document.querySelector('.display-output').textContent = `${parsedOutput}`;
+                    document.querySelector('.calculation-display-output').textContent = `0${parsedOutput}`;
+                    break;
+                case 'empty' :
+                    updateDisplayValueStorage(input);
+                    parsedOutput = parseOutput(displayValueStorage, input);
+                    console.log(parsedOutput);
+                    document.querySelector('.display-output').textContent = `${parsedOutput}`;
+                    document.querySelector('.calculation-display-output').textContent = `${parsedOutput}`;
             }
             break;
         case 'equals':

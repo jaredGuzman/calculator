@@ -52,9 +52,7 @@ function parseOutput(displayValueStorage) {
 function addToStorage(value, lastItem, lastItemType, inputType) {
     switch (inputType) {
         case 'operator':
-            if (lastItemType == 'number') {
-                displayValueStorage.push(value)
-            };
+            if (lastItemType == 'number') {displayValueStorage.push(value)};
             break;
         case 'number':
             if (lastItemType == 'operator' || displayValueStorage.length <= 0) {
@@ -69,11 +67,17 @@ function addToStorage(value, lastItem, lastItemType, inputType) {
             }
             break;
         case 'decimal':
-            if (lastItemType == 'number') {
-                displayValueStorage[displayValueStorage.length - 1] += value;
-            }else if(lastItemType == 'operator'){
-                displayValueStorage.push(`0${value}`);
-            };
+            switch(lastItemType){
+                case 'number' :
+                    displayValueStorage[displayValueStorage.length - 1] += value;
+                    break;
+                case 'operator' : 
+                    displayValueStorage.push(`0${value}`);
+                    break;
+                case 'empty' :
+                    displayValueStorage[displayValueStorage.length - 1] += `0${value}`;
+                    break;
+            }
             break;
         case 'equals':
             console.log('Equality operator cannot be used this way!')
@@ -84,6 +88,7 @@ function addToStorage(value, lastItem, lastItemType, inputType) {
 }
 
 function updateDisplayValueStorage(value) {
+    console.log(value);
 
     if(currentlyEvaluating == false){
         let lastItem = displayValueStorage[displayValueStorage.length - 1];
@@ -126,6 +131,9 @@ function updateDisplayValueStorage(value) {
                     let containsDecimal = checkforDecimal();
                     if(containsDecimal == true){
                         console.log('Throw fancy error here');
+                    }else if(displayValueStorage.length <= 0){
+                        addToStorage(value, lastItem, lastItemType, inputType)
+                        console.log(`${value} - decimal added at beginning`)
                     }else{
                         addToStorage(value, lastItem, lastItemType, inputType);
                         console.log(`${value} - decimal added after number`);
