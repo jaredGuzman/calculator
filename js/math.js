@@ -32,7 +32,7 @@ function operate(a, operator, b) {
             result = divide(a, b);
             break;
         default:
-            console.log(`Oops! Please enter a proper operation! submitted values : ${a}, ${operator}, ${b}`);
+            renderError(`Oops! Please enter a proper operation! Submitted values : ${a}, ${operator}, ${b}`);
     }
     result = Math.round(result * 1000) / 1000
     return result

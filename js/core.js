@@ -67,6 +67,7 @@ buttons.forEach(currentValue => {
             let validInput = validateInput(inputValue);
             if (validInput == true) {
                 updateDisplay(inputValue);
+                console.log(displayValueStorage);
             } else {
                 console.log('Hey! >:( you ain\'t supposed to be doin\' that!');
             }

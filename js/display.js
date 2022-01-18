@@ -134,12 +134,12 @@ function updateDisplayValueStorage(input) {
 
         switch(inputType){
             case 'invalid' :
-                console.log(`${input} - invalid input, throw a fancy error here`);
+                renderError('Invalid input type, please use 0-9, +-X/ or .');
                 break;
             case 'number' :
                 if (lastItemType == 'operator' || displayValueStorage.length <= 0) {
                     if (lastItem == '/' && input == '0') {
-                        console.log('Cannot divide by zero! Throw a fancy error here!');
+                        renderError('Hey! You and I both know you shouldn\'t do that! >:(');
                         return;
                     } else {
                         displayValueStorage.push(input);
@@ -152,13 +152,14 @@ function updateDisplayValueStorage(input) {
                 if(lastItemType == 'number'){
                     displayValueStorage.push(input)
                 }else{
-                    console.log(`Cannot add an operator after ${lastItem} type:${lastItemType}`);
+                    renderError(`Cannot add an operator after another operator!`);
                 }
                 break;
             case 'decimal' :
                 let containsDecimal = checkforDecimal();
                 if(containsDecimal == true){
-                    console.log('Throw fancy error here');
+                    renderError('Cannot have more than one decimal in a single number.');
+                    break;
                 }else{
                     switch(lastItemType){
                         case 'number' :
@@ -171,11 +172,10 @@ function updateDisplayValueStorage(input) {
                             displayValueStorage[displayValueStorage.length - 1] += `0${input}`;
                             break;
                     }
-                    console.log(`${input} - decimal added at beginning`)
                 }
                 break;
             default :
-                console.log(`Something went wrong in updateDisplayValueStorage!`);
+                renderError('Oops! something went wrong in UpdateDisplayValueStorage()!')
 
         }
     }else if(currentlyEvaluating == true){
@@ -250,6 +250,9 @@ function updateDisplay(input) {
             }
             break;
         case 'equals':
+            if(lastItemType == 'operator'){
+                displayValueStorage.pop();
+            }
             input = evaluate();
             parsedOutput = input;
             document.querySelector('.display-output').textContent = parsedOutput;
@@ -261,4 +264,24 @@ function updateDisplay(input) {
             break;
     }
 
+}
+
+/** Throws errors when the user does something they aren't supposed to.
+ *  Examples include dividing by zero, adding multiple decimals in a single number,
+ *  or attempting to add multiple operators one after another.
+ * 
+ * @param {*} input A string containing the error to display on the page
+ */
+function renderError(input){
+    document.querySelector('.error-message').innerHTML = input;
+    
+    let error = document.querySelector('.error-message-wrapper');
+
+    error.classList.add('opaque');
+    setTimeout(toggleOpaqueClass, 2000);
+}
+
+function toggleOpaqueClass(){
+    let error = document.querySelector('.error-message-wrapper');
+    error.classList.remove('opaque');
 }
