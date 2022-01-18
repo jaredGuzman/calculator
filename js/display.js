@@ -202,6 +202,7 @@ function updateDisplay(input) {
     let parsedOutput;
 
     let lastItemType = getLastItemType();
+    let lastItem = displayValueStorage[displayValueStorage.length - 1];
     let currentInputType = getType(input);
 
     let smallEnoughInput = countArray(displayValueStorage);
@@ -253,6 +254,10 @@ function updateDisplay(input) {
             if(lastItemType == 'operator'){
                 displayValueStorage.pop();
             }
+            if(lastItem == '0.'){
+                renderError('Hey! You and I both know you shouldn\'t do that! >:(');
+                break;
+            }
             input = evaluate();
             parsedOutput = input;
             document.querySelector('.display-output').textContent = parsedOutput;
@@ -278,7 +283,7 @@ function renderError(input){
     let error = document.querySelector('.error-message-wrapper');
 
     error.classList.add('opaque');
-    setTimeout(toggleOpaqueClass, 2000);
+    setTimeout(toggleOpaqueClass, 3000);
 }
 
 function toggleOpaqueClass(){
